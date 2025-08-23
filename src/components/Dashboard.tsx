@@ -1,16 +1,19 @@
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MonthlyExpenseCard } from "./MonthlyExpenseCard";
 import { ExpenseCard } from "./ExpenseCard";
-import { mockExpenses, monthlyTotals, getTotalYear } from "@/data/mockExpenses";
+import { useExpenseContext } from "@/context/ExpenseContext";
 import { Expense } from "@/types/expense";
-import { Plus, Calendar, TrendingUp, Receipt, Filter } from "lucide-react";
+import { Plus, Calendar, TrendingUp, Receipt, Filter, List } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
 export const Dashboard = () => {
-  const [expenses] = useState<Expense[]>(mockExpenses);
+  const { expenses, deleteExpense, getMonthlyTotals, getTotalYear } = useExpenseContext();
+  const navigate = useNavigate();
   const currentMonth = new Date().getMonth() + 1;
   const currentYear = new Date().getFullYear();
+  const monthlyTotals = getMonthlyTotals();
   
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -30,6 +33,21 @@ export const Dashboard = () => {
 
   const recentExpenses = expenses.slice(0, 6);
 
+  const handleEdit = (expense: Expense) => {
+    navigate(`/gastos/editar/${expense.id}`);
+  };
+
+  const handleDelete = (id: string) => {
+    const expense = expenses.find(e => e.id === id);
+    if (expense) {
+      deleteExpense(id);
+      toast({
+        title: "Gasto removido",
+        description: `O gasto de ${expense.empresa} foi removido com sucesso.`,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
       {/* Header */}
@@ -44,7 +62,10 @@ export const Dashboard = () => {
                 {formatDate(new Date())}
               </p>
             </div>
-            <Button className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-primary-foreground shadow-lg">
+            <Button 
+              className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-primary-foreground shadow-lg"
+              onClick={() => navigate("/gastos/novo")}
+            >
               <Plus className="h-4 w-4 mr-2" />
               Novo Gasto
             </Button>
@@ -102,9 +123,9 @@ export const Dashboard = () => {
         <section className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-foreground">Resumo Mensal</h2>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => navigate("/gastos")}>
               <Filter className="h-4 w-4 mr-2" />
-              Filtrar
+              Ver Detalhes
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -122,20 +143,40 @@ export const Dashboard = () => {
         <section>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-foreground">Gastos Recentes</h2>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => navigate("/gastos")}>
+              <List className="h-4 w-4 mr-2" />
               Ver Todos
             </Button>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {recentExpenses.map((expense) => (
-              <ExpenseCard
-                key={expense.id}
-                expense={expense}
-                onEdit={(expense) => console.log("Edit expense:", expense)}
-                onDelete={(id) => console.log("Delete expense:", id)}
-              />
-            ))}
-          </div>
+          {recentExpenses.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {recentExpenses.map((expense) => (
+                <ExpenseCard
+                  key={expense.id}
+                  expense={expense}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </div>
+          ) : (
+            <Card className="p-12 text-center">
+              <div className="text-muted-foreground">
+                <Receipt className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <h3 className="text-lg font-medium mb-2">Nenhum gasto registrado</h3>
+                <p className="mb-4">
+                  Comece adicionando seu primeiro gasto de manutenção
+                </p>
+                <Button 
+                  className="bg-gradient-to-r from-primary to-primary-dark"
+                  onClick={() => navigate("/gastos/novo")}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Adicionar Primeiro Gasto
+                </Button>
+              </div>
+            </Card>
+          )}
         </section>
       </main>
     </div>

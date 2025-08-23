@@ -9,7 +9,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Expense } from "@/types/expense";
 import { CalendarIcon, Save, X, Plus } from "lucide-react";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 
 interface ExpenseFormProps {
@@ -150,7 +149,7 @@ export const ExpenseForm = ({ expense, onSave, onCancel }: ExpenseFormProps) => 
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
                       {formData.data_emitida ? (
-                        format(formData.data_emitida, "PPP", { locale: ptBR })
+                        format(formData.data_emitida, "dd/MM/yyyy")
                       ) : (
                         <span>Selecione a data</span>
                       )}
@@ -222,7 +221,7 @@ export const ExpenseForm = ({ expense, onSave, onCancel }: ExpenseFormProps) => 
                           className="w-full justify-start text-left font-normal"
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {format(parcela.data, "PPP", { locale: ptBR })}
+                          {format(parcela.data, "dd/MM/yyyy")}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
