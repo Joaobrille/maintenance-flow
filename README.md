@@ -2,7 +2,9 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/40118873-4a17-4d77-80c7-695cdbcde181
+**URL**: git remoto adicionar origem https://github.com/Joaobrille/system-gastos.git
+ git branch -M main 
+git push -u origin main1
 
 ## How can I edit this code?
 
@@ -10,7 +12,9 @@ There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/40118873-4a17-4d77-80c7-695cdbcde181) and start prompting.
+Simply visit the [Joaobrille/system-gastos](git remoto adicionar origem https://github.com/Joaobrille/system-gastos.git
+ git branch -M main 
+git push -u origin main) and start prompting.
 
 Changes made via Lovable will be committed automatically to this repo.
 
@@ -62,7 +66,7 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/40118873-4a17-4d77-80c7-695cdbcde181) and click on Share -> Publish.
+Simply open [Joaobrille/system-gastos]([Joaobrille/system-gastos](https://github.com/nvm-sh/nvm#installing-and-updating)) and click on Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
 
@@ -70,4 +74,4 @@ Yes, you can!
 
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Read more here: [Setting up a custom domain](https://github.com/Joaobrille/system-gastos.git))
